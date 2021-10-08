@@ -24,7 +24,7 @@ sns.despine()
 sns.set_context("paper",font_scale=1.25)
 
 
-fig1, axICC = plt.subplots(2,2,figsize=(25,25),dpi = 110, gridspec_kw={'width_ratios': [(21/39), (18/39)]})
+fig1, axICC = plt.subplots(1,2 , figsize=(15,10),dpi = 70, gridspec_kw={'width_ratios': [(21/39), (18/39)]})
 plt.tight_layout()
 plt.subplots_adjust(left=0.05, bottom=0.20, right=None, top=0.95, wspace=0.02, hspace=0.05)
 
@@ -88,24 +88,24 @@ data_plot.loc['SR Swing/stand':,'xaxis'] = range(61,81)
 
 line1 = sns.lineplot(x = 'xaxis', y = 'ICC', 
                      data = data_plot.loc[data_plot.Type == 'Spatio-Temporal'], 
-                     ax=axICC[0,0],marker = '^', 
+                     ax=axICC[0],marker = '^', 
                      style = 'Type',markersize = 9, palette = 'deep',
                      hue = 'Sensor')
 
 line2 = sns.lineplot(x = 'xaxis', y = 'ICC', 
                      data = data_plot.loc[data_plot.Type == 'Frequency'], 
-                     ax=axICC[0,1],marker = '^', 
+                     ax=axICC[1],marker = '^', 
                      style = 'Type',markersize = 9, palette = 'deep',
                      hue = 'Sensor')
 
 line3 = sns.lineplot(x = 'xaxis', y = 'Minimal ICC', 
                      data = data_plot.loc[data_plot.Type == 'Spatio-Temporal'], 
-                     ax=axICC[0,0], 
+                     ax=axICC[0], 
                      label = 'Minimal ICC', 
                      color = 'black')
 line4 = sns.lineplot(x = 'xaxis', y = 'Minimal ICC', 
                      data = data_plot.loc[data_plot.Type == 'Frequency'], 
-                     ax=axICC[0,1], 
+                     ax=axICC[1], 
                      label = 'Minimal ICC', color = 'black')
         
 line1.lines[0].set_linestyle("")
@@ -138,102 +138,46 @@ line2.lines[2].set_linestyle("")
 line2.lines[0].set_marker("^")
 ms = line2.lines[2].get_markersize()
 line2.lines[2].set_markersize(ms * 1)
-axICC[0,0].get_legend().remove()
+axICC[0].get_legend().remove()
 
 
 
 a = ticker.MultipleLocator(1)
 b = ticker.MultipleLocator(1)
 
-axICC[0,0].xaxis.set_major_locator(a)
-axICC[0,1].xaxis.set_major_locator(b)
+axICC[0].xaxis.set_major_locator(a)
+axICC[1].xaxis.set_major_locator(b)
 
 
-axICC[0,0].set_ylim((0.48,1.0))
-axICC[0,1].set_ylim((0.48,1))
-axICC[0,1].set_yticklabels([])
-axICC[0,0].set_xticklabels([])
-axICC[0,1].set_xticklabels([])
+axICC[0].set_ylim((0.48,1.0))
+axICC[1].set_ylim((0.48,1))
+axICC[1].set_yticklabels([])
+axICC[0].set_xticklabels([])
+axICC[1].set_xticklabels([])
 
-axICC[0,0].set_xlabel('')
-axICC[0,0].set_ylabel('ICC')
-axICC[0,1].set_xlabel('')
-axICC[0,1].set_ylabel('')
-axICC[0,0].set_title('Spatio-temporal')
-axICC[0,1].set_title('Frequency')
+axICC[0].set_xlabel('')
+axICC[0].set_ylabel('ICC')
+axICC[1].set_xlabel('')
+axICC[1].set_ylabel('')
+axICC[0].set_title('Spatio-temporal')
+axICC[1].set_title('Frequency')
 
-handles, labels = axICC[0,1].get_legend_handles_labels()
+handles, labels = axICC[1].get_legend_handles_labels()
 display = (1,2,3,6)
-axICC[0,1].legend([handle for i,handle in enumerate(handles) if i in display],
+axICC[1].legend([handle for i,handle in enumerate(handles) if i in display],
       [label for i,label in enumerate(labels) if i in display], loc = 'lower right')
 
 
-axICC[0,1].legend(["Left Foot", "Right Foot", "Low Back"], 
+axICC[1].legend(["Left Foot", "Right Foot", "Low Back"], 
      loc = 'lower right')
 
-axICC[0,0].legend([handle for i,handle in enumerate(handles) if i in display],
+axICC[0].legend([handle for i,handle in enumerate(handles) if i in display],
       [label for i,label in enumerate(labels) if i in display], loc = 'lower right')
 
-axICC[0,0].legend(["Left Foot", "Right Foot", "Low Back"], 
+axICC[0].legend(["Left Foot", "Right Foot", "Low Back"], 
      loc = 'lower right')
 # Bottom figures
-line5 = sns.lineplot(x = 'xaxis', y = 'MDC', 
-                     data = data_plot.loc[data_plot.Type == 'Spatio-Temporal'], 
-                     ax=axICC[1,0],marker = '^',  
-                     style = 'Type',markersize = 9, linewidth = 0, 
-                     palette = 'deep',
-                     hue = 'Sensor')
-line6 = sns.lineplot(x = 'xaxis', y = 'MDC', 
-                     data = data_plot.loc[data_plot.Type == 'Frequency'], 
-                     ax=axICC[1,1],marker = '^', 
-                     style = 'Type',markersize = 9, palette = 'deep',
-                     linewidth = 0, hue = 'Sensor')
 
-
-line5.lines[0].set_linestyle("")
-line5.lines[0].set_label('Left foot')
-line5.lines[0].set_markersize(ms * 1.5)
-
-line5.lines[1].set_linestyle("")
-line5.lines[1].set_label('Right foot')
-line5.lines[1].set_markersize(ms * 1.2)
-
-line5.lines[2].set_linestyle("")
-line5.lines[2].set_label('Low Back')
-line5.lines[2].set_markersize(ms * 1.0)
-
-
-line6.lines[0].set_linestyle("")
-line6.lines[0].set_label('Left foot')
-line6.lines[0].set_markersize(ms * 1.5)
-
-line6.lines[1].set_linestyle("")
-line6.lines[1].set_label('Right foot')
-line6.lines[1].set_markersize(ms * 1.2)
-
-line6.lines[2].set_linestyle("")
-line6.lines[2].set_label('Low Back')
-line6.lines[2].set_markersize(ms * 1.0)
-
-axICC[1,0].set_ylim((0,2))
-axICC[1,1].set_ylim((0,2))
-
-
-axICC[1,0].get_legend().remove()
-axICC[1,1].get_legend().remove()
-
-a = ticker.MultipleLocator(1)
-b = ticker.MultipleLocator(1)
-
-axICC[1,0].xaxis.set_major_locator(a)
-axICC[1,1].xaxis.set_major_locator(b)
-
-axICC[1,1].set_yticklabels([])
-axICC[1,0].set_xlabel('')
-axICC[1,0].set_ylabel('MDC expressed as STD')
-axICC[1,1].set_xlabel('')
-axICC[1,1].set_ylabel('')
-axICC[1,0].set_title('')
 
 varNames = xls.iloc[:,0]
 for number, value in enumerate(varNames):
@@ -251,38 +195,26 @@ for num, var in enumerate(tmp):
     tmp[num] = var.replace(" B", "") 
 fD = tmp 
 
-
-#dx = 10/72.; dy = 0/72. 
-#offset = matplotlib.transforms.ScaledTranslation(dx, dy, fig1.dpi_scale_trans)
-#
-## apply offset transform to all x ticklabels.
-#for label in axICC[1,0].xaxis.get_majorticklabels():
-#    label.set_transform(label.get_transform() + offset)
-#for label in axICC[1,1].xaxis.get_majorticklabels():
-#    label.set_transform(label.get_transform() + offset)
-#for label in axICC[1,2].xaxis.get_majorticklabels():
-#    label.set_transform(label.get_transform() + offset)
-#            
     
 # Spatio-Temporal features
-labels = [item.get_text() for item in axICC[1,0].get_xticklabels()]
+labels = [item.get_text() for item in axICC[0].get_xticklabels()]
 
 labels[1] = ''
 labels[2:22] = tD
 labels[0] = ''
 #    labels[22] = ''
     
-axICC[1,0].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
+axICC[0].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
 
 
 # Frequency features
-labels = [item.get_text() for item in axICC[1,1].get_xticklabels()]
+labels = [item.get_text() for item in axICC[1].get_xticklabels()]
 
 labels[1:20] = fD
 labels[0] = ''
 #labels[19] = ''
 
-axICC[1,1].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
+axICC[1].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
 
 
 #    os.chdir(saveTo)
@@ -290,7 +222,7 @@ axICC[1,1].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="an
 #    
 #    os.chdir(mainDirectory)
 #handles, labels = axICC[1,2].get_legend_handles_labels()
-#display = (0,1)
+#display = (1)
 #axICC[1,2].legend(['First measurement'], loc = 'upper right')
 
 #axICC[1].set_title('SIT: Minimal detectable change')
@@ -309,30 +241,30 @@ axICC[1,1].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="an
 
 
 
-fig2, axICC2 = plt.subplots(2,2,figsize=(25,25),dpi = 110, gridspec_kw={'width_ratios': [(21/41), (20/41)]})
+fig2, axICC2 = plt.subplots(1,2,figsize=(15,10),dpi = 70, gridspec_kw={'width_ratios': [(21/41), (20/41)]})
 plt.tight_layout()
-plt.subplots_adjust(left=0.05, bottom=0.20, right=None, top=0.95, wspace=0.02, hspace=0.05)
+plt.subplots_adjust(left=0.05, bottom=0.2, right=None, top=0.95, wspace=0.02, hspace=0.05)
 
 line1 = sns.lineplot(x = 'xaxis', y = 'ICC', 
                      data = data_plot.loc[data_plot.Type == 'Complexity'], 
-                     ax=axICC2[0,0],marker = '^', 
+                     ax=axICC2[0],marker = '^', 
                      style = 'Type',markersize = 9, palette = 'deep',
                      hue = 'Sensor')
 
 line2 = sns.lineplot(x = 'xaxis', y = 'ICC', 
                      data = data_plot.loc[data_plot.Type == 'asymmetry'], 
-                     ax=axICC2[0,1],marker = '^', 
+                     ax=axICC2[1],marker = '^', 
                      style = 'Type',markersize = 9, palette = 'deep',
                      hue = 'Sensor')
 
 line3 = sns.lineplot(x = 'xaxis', y = 'Minimal ICC', 
                      data = data_plot.loc[data_plot.Type == 'Complexity'], 
-                     ax=axICC2[0,0], 
+                     ax=axICC2[0], 
                      label = 'Minimal ICC', 
                      color = 'black')
 line4 = sns.lineplot(x = 'xaxis', y = 'Minimal ICC', 
                      data = data_plot.loc[data_plot.Type == 'asymmetry'], 
-                     ax=axICC2[0,1], 
+                     ax=axICC2[1], 
                      label = 'Minimal ICC', color = 'black')
 
 line1.lines[0].set_linestyle("")
@@ -360,92 +292,31 @@ line2.lines[1].set_markersize(ms * 1.2)
 line2.lines[2].set_linestyle("")
 ms = line2.lines[2].get_markersize()
 line2.lines[2].set_markersize(ms * 1)
-axICC2[0,0].get_legend().remove()
+axICC2[0].get_legend().remove()
 
 
 
 a = ticker.MultipleLocator(1)
 b = ticker.MultipleLocator(1)
 
-axICC2[0,0].xaxis.set_major_locator(a)
-axICC2[0,1].xaxis.set_major_locator(b)
+axICC2[0].xaxis.set_major_locator(a)
+axICC2[1].xaxis.set_major_locator(b)
 
 
-axICC2[0,0].set_ylim((0.48,1.0))
-axICC2[0,1].set_ylim((0.48,1))
-axICC2[0,1].set_yticklabels([])
-axICC2[0,0].set_xticklabels([])
-axICC2[0,1].set_xticklabels([])
+axICC2[0].set_ylim((0.48,1.0))
+axICC2[1].set_ylim((0.48,1))
+axICC2[1].set_yticklabels([])
+axICC2[0].set_xticklabels([])
+axICC2[1].set_xticklabels([])
 
-axICC2[0,0].set_xlabel('')
-axICC2[0,0].set_ylabel('ICC')
-axICC2[0,1].set_xlabel('')
-axICC2[0,1].set_ylabel('')
-axICC2[0,0].set_title('Complexity')
-axICC2[0,1].set_title('Asymmetry')
-
-
-# Bottom figures
-line5 = sns.lineplot(x = 'xaxis', y = 'MDC', 
-                     data = data_plot.loc[data_plot.Type == 'Complexity'], 
-                     ax=axICC2[1,0],marker = '^',  
-                     style = 'Type',markersize = 9, linewidth = 0, 
-                     palette = 'deep',
-                     hue = 'Sensor')
-line6 = sns.lineplot(x = 'xaxis', y = 'MDC', 
-                     data = data_plot.loc[data_plot.Type == 'asymmetry'], 
-                     ax=axICC2[1,1],marker = '^', 
-                     style = 'Type',markersize = 9, palette = 'deep',
-                     linewidth = 0, hue = 'Sensor')
-
-ms = line5.lines[0].get_markersize()
-line5.lines[0].set_linestyle("")
-line5.lines[0].set_label('Left foot')
-line5.lines[0].set_markersize(ms * 1.5)
-
-line5.lines[1].set_linestyle("")
-line5.lines[1].set_label('Right foot')
-line5.lines[1].set_markersize(ms * 1.2)
-
-line5.lines[2].set_linestyle("")
-line5.lines[2].set_label('Low Back')
-line5.lines[2].set_markersize(ms * 1.0)
+axICC2[0].set_xlabel('')
+axICC2[0].set_ylabel('ICC')
+axICC2[1].set_xlabel('')
+axICC2[1].set_ylabel('')
+axICC2[0].set_title('Complexity')
+axICC2[1].set_title('Asymmetry')
 
 
-line6.lines[0].set_linestyle("")
-line6.lines[0].set_label('Left foot')
-line6.lines[0].set_markersize(ms * 1.5)
-line6.lines[0].set_color('darkred')
-
-
-line6.lines[1].set_linestyle("")
-line6.lines[1].set_label('Right foot')
-line6.lines[1].set_markersize(ms * 1.2)
-
-line6.lines[2].set_linestyle("")
-line6.lines[2].set_label('Low Back')
-line6.lines[2].set_markersize(ms * 1.0)
-
-
-axICC2[1,0].set_ylim((0,2))
-axICC2[1,1].set_ylim((0,2))
-
-axICC2[0,1].get_legend().remove()
-axICC2[1,0].get_legend().remove()
-axICC2[1,1].get_legend().remove()
-
-a = ticker.MultipleLocator(1)
-b = ticker.MultipleLocator(1)
-
-axICC2[1,0].xaxis.set_major_locator(a)
-axICC2[1,1].xaxis.set_major_locator(b)
-
-axICC2[1,1].set_yticklabels([])
-axICC2[1,0].set_xlabel('')
-axICC2[1,0].set_ylabel('MDC expressed as STD')
-axICC2[1,1].set_xlabel('')
-axICC2[1,1].set_ylabel('')
-axICC2[1,0].set_title('')
 
 tmp = varNames[25:46]
 for num, var in enumerate(tmp):
@@ -467,78 +338,36 @@ a = varNames[146:166]
 #            
     
 # Spatio-Temporal features
-labels = [item.get_text() for item in axICC2[1,0].get_xticklabels()]
+labels = [item.get_text() for item in axICC2[0].get_xticklabels()]
 
 labels[1] = ''
 labels[2:25] = c
 labels[0] = ''
 #    labels[22] = ''
     
-axICC2[1,0].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
+axICC2[0].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
 
 
 # Frequency features
-labels = [item.get_text() for item in axICC2[1,1].get_xticklabels()]
+labels = [item.get_text() for item in axICC2[1].get_xticklabels()]
 
 labels[1:20] = a
 labels[0] = ''
 #labels[19] = ''
 
-axICC2[1,1].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
+axICC2[1].set_xticklabels(labels,rotation = 45, ha = 'right', rotation_mode="anchor")
 
 
-axICC2[0,0].legend([handle for i,handle in enumerate(handles) if i in display],
+axICC2[0].legend([handle for i,handle in enumerate(handles) if i in display],
       [label for i,label in enumerate(labels) if i in display], loc = 'lower right')
 
-axICC2[0,0].legend(["Left foot", "Right foot", "Low Back"], 
+axICC2[0].legend(["Left foot", "Right foot", "Low Back"], 
      loc = 'lower right')
 
-axICC2[0,1].legend(["Asymmetry"], 
+axICC2[1].legend(["Asymmetry"], 
      loc = 'lower right')
 
 
-
-
-
-
-# Average ICC LeftFoot and rightFoot
-
-LST = data_plot.loc[(data_plot['Sensor'] == 'leftfoot') & 
-                        (data_plot['Type'] == 'Spatio-Temporal'), 'ICC'].mean()
-
-LF = data_plot.loc[(data_plot['Sensor'] == 'leftfoot') & 
-                        (data_plot['Type'] == 'Frequency'), 'ICC'].mean()
-
-LC = data_plot.loc[(data_plot['Sensor'] == 'leftfoot') & 
-                        (data_plot['Type'] == 'Complexity'), 'ICC'].mean()
-
-print(f'Left foot: ST {LST}, F{LF}, LC{LC}')
-
-RST = data_plot.loc[(data_plot['Sensor'] == 'rightfoot') & 
-                        (data_plot['Type'] == 'Spatio-Temporal'), 'ICC'].mean()
-
-RF = data_plot.loc[(data_plot['Sensor'] == 'rightfoot') & 
-                        (data_plot['Type'] == 'Frequency'), 'ICC'].mean()
-
-RC = data_plot.loc[(data_plot['Sensor'] == 'rightfoot') & 
-                        (data_plot['Type'] == 'Complexity'), 'ICC'].mean()
-
-print(f'right foot: ST {RST}, F{RF}, LC{RC}')
-
-
-
-
-leftfoot = data_plot.loc[data_plot['Sensor'] == 'leftfoot']
-rightfoot = data_plot.loc[data_plot['Sensor'] == 'rightfoot']
-
-print(np.mean(leftfoot.loc[leftfoot['Type'] == 'Spatio-Temporal', 'ICC']))
-print(np.mean(rightfoot.loc[rightfoot['Type'] == 'Spatio-Temporal', 'ICC']))
-
-print(np.mean(leftfoot.loc[leftfoot['Type'] == 'Frequency', 'ICC']))
-print(np.mean(rightfoot.loc[rightfoot['Type'] == 'Frequency', 'ICC']))
-
-print(np.mean(leftfoot.loc[leftfoot['Type'] == 'Complexity', 'ICC']))
-print(np.mean(rightfoot.loc[rightfoot['Type'] == 'Complexity', 'ICC']))
 
 
 

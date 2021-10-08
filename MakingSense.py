@@ -29,10 +29,10 @@ from CalcGaitFeatures import calcFeaturesmakingsense
 # import PythonToLatex
 # import GaitPlot
 
-walkingAid = (['with'])  # (['with', 'without']) 
-rehabC =    (['P'])  # ('P','H')                                                         
+walkingAid = (['with', 'without']) 
+rehabC =   ('P','H')                                           
 testTypes = ('Test','Hertest')                                                  
-nSubjects = 1                                                                  
+nSubjects = 20                                                                  
 settings =  {'rehabC' : rehabC,
             'testTypes': testTypes,
             'nSubjects': nSubjects,
@@ -41,8 +41,7 @@ settings =  {'rehabC' : rehabC,
 
 
 def main():   
-    calcFeaturesmakingsense(settings, plotje = True, verbose = True)
-    #calculateICCMDC()
+    calcFeaturesmakingsense(settings, plotje = False, verbose = False, debug = True)
     
 if __name__ == "__main__":
     main()

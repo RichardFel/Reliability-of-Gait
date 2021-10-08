@@ -90,11 +90,11 @@ class loadCsv:
 
     def correctGyroscope(self, owd):
         try:
-            gyorscopeErrorDF = pd.read_pickle(owd + '/Calibration/gyorscopeErrorDF.pkl')
+            gyorscopeErrorDF = pd.read_csv(owd + '/Calibration/gyorscopeErrorDF.csv', index_col=0)
             (gyrEx, gyrEy, gyrEz) = gyorscopeErrorDF.loc[self.serialnumber]
             self.gyroscope -= (gyrEx, gyrEy, gyrEz)
-        except TypeError:
-            print ('Warning: Calibrate this sensor before using!')
+        except KeyError:
+            print (f'Warning: Calibrate this sensor: {self.serialnumber} before using!')
 
         self.gyroscope = self.gyroscope[200:-200]
         self.acceleration = self.acceleration[200:-200]

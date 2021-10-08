@@ -63,6 +63,7 @@ class sensorFusion:
     def globalAcceleration(self):
         self.quaternion = np.zeros((len(self.acceleration),4))
         self.linearacc = np.zeros((len(self.acceleration),3))
+        self.gyrRotated = np.zeros((len(self.gyroscope),3))
         for sample in range(len(self.acceleration)):                                        
             if sample in self.stationary:
                 self.quaternion[sample] = self.fusion.update_6dof(np.array(self.acceleration)[sample], 
@@ -71,9 +72,10 @@ class sensorFusion:
                 self.quaternion[sample] = self.fusion.update_6dof(np.array(self.acceleration)[sample], 
                 np.array(self.gyroscope)[sample], kp = 0)
             self.linearacc[sample] = self.fusion.linearacc(self.acceleration[sample], self.quaternion[sample])
+            self.gyrRotated[sample] = self.fusion.linearacc(self.gyroscope[sample], self.quaternion[sample])
         self.linearacc *= 9.81
         self.linearacc[:,2] -= 9.81
-        self.accRotated = self.acceleration
+        self.accRotated = self.linearacc
         
     def update_6dof(self,acceleration, gyroscope, kp):   
         acceleration /=  np.linalg.norm(acceleration)

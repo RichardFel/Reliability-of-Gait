@@ -28,7 +28,7 @@ from CalcGaitFeatures import calcFeatures
 
 
 def main():
-    calcFeatures(subject = 'S001', testType = 'Test', plotje=True, verbose=True)
+    calcFeatures(subject = 'S001', testType = 'Test', plotje=True, verbose=True, debug = True)
 
 if __name__ == '__main__':
     main()

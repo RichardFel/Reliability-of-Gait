@@ -22,10 +22,9 @@ def butterworthFilter(inputSignal,  sampleFreq, filterType, cutoff, order =1):
     if filterType == 'bandpass':
         b, a = signal.butter(order,[(2*cutoff[0])/(1/sampleFreq),
                                      (2*cutoff[1])/(1/sampleFreq)], btype = filterType)
-        filtAcceleration = signal.filtfilt(b,a, inputSignal)
     else:
         b, a = signal.butter(order,(2*cutoff)/(1/sampleFreq), btype = filterType)
-        filtAcceleration = signal.filtfilt(b,a, inputSignal)
+    filtAcceleration = signal.filtfilt(b,a, inputSignal)
     return filtAcceleration
     
 def rotsig(signal, rotmatrix):
@@ -108,20 +107,16 @@ def startEnd(self,sensorPos,minDiff,maxDiff,):
     # Find the most likely start and end of the signal
     walksig(self, startArray, endArray)
 
-def resample(self, n_strides, firststride, new_sf, sig):
+def resample(self, n_strides, firststride, new_sf, input_signal):
     laststride = firststride + n_strides
     begin = int((self.peaks[firststride-1] + self.peaks[firststride]) / 2)
     end = int((self.peaks[laststride-1] + self.peaks[laststride]) / 2)
     n_samples = n_strides * new_sf
     self.resampled = np.zeros((n_samples,3))
     for i in range(3):
-        if sig == 'acceleration':
-            sig = self.acceleration[begin:end,i]
-        else:
-            sig = self.gyroscope[begin:end,i]
+        resamp_signal = input_signal[begin:end,i]
         y_new = np.zeros(n_samples)
-        f = signal.decimate(sig, 2)
+        f = signal.decimate(resamp_signal, 2)
         y_new = signal.resample(f, n_samples)
         self.resampled[:,i] = y_new
 
-    

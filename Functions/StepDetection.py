@@ -95,19 +95,17 @@ def makeFigures(self):
     ax2.legend(['Left foot sensor'])
     ax2.set_ylabel("Acceleration VT [G]")
     ax2.set_xlabel("Time [s]")
-    #        few_peaks = accVT[2000:3000]
-    #        fig1, ax2 = plt.subplots(1, figsize = (25,15), dpi = 110)
-    #        ax2.plot((np.array(range(0,len(few_peaks)))/100), 
-    #                 few_peaks
-    #                 )
-    #        peak_points = peaks[np.where((peaks >= 2000) & (peaks <= 3000))]-2000
-    #        ax2.plot(peak_points/100, 
-    #                 few_peaks[peak_points],  
-    #                 'o')          
-    #        ax2.set_title('Two minute walking with peak detection')
-    #        ax2.legend(['Left foot sensor'])
-    #        ax2.set_ylabel("Acceleration VT [G]")
-    #        ax2.set_xlabel("Time [s]")
+    
+    #    few_peaks = self.accVT[2000:3000]
+    #    fig1, ax2 = plt.subplots(1, figsize = (25,15), dpi = 110)
+    #    ax2.plot((np.array(range(0,len(few_peaks)))/100), few_peaks)
+    #    peak_points = self.peaks[np.where((self.peaks >= 2000) & (self.peaks <= 3000))]-2000
+    #    ax2.plot(peak_points/100, few_peaks[peak_points],  'o')          
+    #    ax2.set_title('Ten seconds walking with peak detection [left foot]')
+    #    ax2.legend(['Acceleration VT [G]'])
+    #    ax2.set_ylabel("Acceleration [G]")
+    #    ax2.set_xlabel("Time [s]")
+    #    plt.savefig('peaks.png', dpi = 500)
     
 def falseNegative(self, verbose):
     ''' Checks large gaps between foottouchers if there is definetly no foottouch 

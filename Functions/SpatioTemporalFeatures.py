@@ -16,7 +16,8 @@ def calcFeaturesFeet(sensors, plotje, verbose, per_N_strides):
         print('Difference between distance too large. We cannot include',
               'this participant')
         raise Exception 
-    print('\n checkpoint 3 passed \n')
+    if verbose:
+        print('\n checkpoint 3 passed \n')
     return sensors
 
 def stepTime(self, per_N_strides, verbose):
@@ -107,19 +108,20 @@ def descriptives(self, per_N):
     gyrrangeVT= []
     gyrrmsVT= []
     for i in range(int(np.floor(len(self.peaks[5:-5])/per_N))):
-        select = self.accRotated[self.peaks[5+per_N*i]:self.peaks[5+per_N+per_N*i]]  
-        accrangeAP.append(np.max(select[:,0]) - np.min(select[:,0]))
-        accrmsAP.append(np.sqrt(np.mean(select[:,0]**2)))
-        accrangeML.append(np.max(select[:,1]) - np.min(select[:,1]))
-        accrmsML.append(np.sqrt(np.mean(select[:,1]**2)))
-        accrangeVT.append(np.max(select[:,2]) - np.min(select[:,2]))
-        accrmsVT.append(np.sqrt(np.mean(select[:,2]**2)))
-        gyrrangeAP.append(np.max(select[:,0]) - np.min(select[:,0]))
-        gyrrmsAP.append(np.sqrt(np.mean(select[:,0]**2)))
-        gyrrangeML.append(np.max(select[:,1]) - np.min(select[:,1]))
-        gyrrmsML.append(np.sqrt(np.mean(select[:,1]**2)))
-        gyrrangeVT.append(np.max(select[:,2]) - np.min(select[:,2]))
-        gyrrmsVT.append(np.sqrt(np.mean(select[:,2]**2)))
+        selectACC = self.accRotated[self.peaks[5+per_N*i]:self.peaks[5+per_N+per_N*i]]  
+        accrangeAP.append(np.max(selectACC[:,0]) - np.min(selectACC[:,0]))
+        accrmsAP.append(np.sqrt(np.mean(selectACC[:,0]**2)))
+        accrangeML.append(np.max(selectACC[:,1]) - np.min(selectACC[:,1]))
+        accrmsML.append(np.sqrt(np.mean(selectACC[:,1]**2)))
+        accrangeVT.append(np.max(selectACC[:,2]) - np.min(selectACC[:,2]))
+        accrmsVT.append(np.sqrt(np.mean(selectACC[:,2]**2)))
+        selectGYR = self.gyrRotated[self.peaks[5+per_N*i]:self.peaks[5+per_N+per_N*i]]  
+        gyrrangeAP.append(np.max(selectGYR[:,0]) - np.min(selectGYR[:,0]))
+        gyrrmsAP.append(np.sqrt(np.mean(selectGYR[:,0]**2)))
+        gyrrangeML.append(np.max(selectGYR[:,1]) - np.min(selectGYR[:,1]))
+        gyrrmsML.append(np.sqrt(np.mean(selectGYR[:,1]**2)))
+        gyrrangeVT.append(np.max(selectGYR[:,2]) - np.min(selectGYR[:,2]))
+        gyrrmsVT.append(np.sqrt(np.mean(selectGYR[:,2]**2)))
     self.accrangeAP = np.mean(accrangeAP)                              
     self.accrmsAP = np.mean( accrmsAP)
     self.accrangeML = np.mean(accrangeML)                 
@@ -137,14 +139,9 @@ def calcFeaturesLowback(sensors, plotje, verbose, per_N_steps):
     StepDetection.stepdetectionLowback(sensors, per_N_steps, plotje, printje)
     descriptives(sensors['lowback'], per_N_steps)
     stepTime(sensors['lowback'], per_N_steps, verbose)
+    if (np.abs(len(sensors['lowback'].peaks) - (sensors['leftfoot'].stridenum + sensors['rightfoot'].stridenum)) > 20):
+        print('We cannot find the same amount of peaks in LB as in feet sensors.','Participant cannot be included')
+        raise Exception 
     if verbose:
-        print("Mean time per stride: ", sensors['lowback'].stridetimemean, 's')
-        print("Step time STD: ", sensors['lowback'].stridetimeSTD)
-        print("Normalised step time: ",  sensors['lowback'].normstridetime )
-        print("\n")
-
-    #    if (np.abs(len(sensors['lowback'].peaks) - (sensors['leftfoot'].stridenum + sensors['rightfoot'].stridenum)) > 20):
-    #        print('We cannot find the same amount of peaks in LB as in feet sensors.','Participant cannot be included')
-    #        raise Exception 
-    print('\n', 'checkpoint 4 passed','\n')
+        print('\n', 'checkpoint 4 passed','\n')
     return sensors

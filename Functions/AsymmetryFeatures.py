@@ -9,7 +9,10 @@ def calcFeatures(sensors):
         
 class Asymmetry:
     def __init__(self, sensors):
-        parFoot = sensors['leftfoot'].parFoot
+        try:   
+            parFoot = sensors['leftfoot'].parFoot
+        except:
+            parFoot = 'left'
         if parFoot != 'R':
             self.parFoot     = sensors['leftfoot']
             self.NonParFoot  = sensors['rightfoot']
@@ -119,7 +122,10 @@ class Asymmetry:
         self.lowBackPeakDiffValues = (np.mean(peakslowBackLeft) / np.mean(peakslowBackRight))
 
     def normalised(self, sensors) :
-        bh = int(sensors['leftfoot'].bodyHeight)
+        try:
+            bh = int(sensors['leftfoot'].bodyHeight)
+        except AttributeError:
+            bh = 180
         meantotdist = np.mean([sensors['leftfoot'].totdist, sensors['rightfoot'].totdist])
         self.normDistance = meantotdist/bh
         self.normCadence = np.mean([sensors['leftfoot'].cadence, sensors['rightfoot'].cadence]) / bh

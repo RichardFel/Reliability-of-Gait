@@ -1,3 +1,4 @@
+#%%
 '''
 Use this script to calculate the gyroscope bias.
 The calibration files per sensor are stored in /calibrationFiles named 
@@ -37,7 +38,7 @@ def determineGyroscopeError(workingDirectory = None, verbose = None):
         
     for file in os.listdir(fileFolder):
         os.chdir(fileFolder)
-        if file == '.DS_Store':
+        if file == '.DS_Store' :
             continue  
         if verbose:
             print(file)
@@ -59,13 +60,12 @@ def determineGyroscopeError(workingDirectory = None, verbose = None):
         gyroscopeError = np.mean(gyroscope[0:len(data)-100,:],axis = 0)
             
         os.chdir(calibrationDirectory)
-        gyorscopeErrorDF    = pd.read_pickle('gyorscopeErrorDF.pkl')
+        gyorscopeErrorDF    = pd.read_csv('gyorscopeErrorDF.csv', index_col = 0)
         
         tempDF =   pd.DataFrame(data = [[gyroscopeError[0],gyroscopeError[1],
                                        gyroscopeError[2]]],
                                 columns = ['gyrE1', 'gyrE2', 'gyrE3'], 
                                 index = [serialsensor1])
-        
         try:
             gyorscopeErrorDF = gyorscopeErrorDF.append(tempDF, verify_integrity = True)
             if verbose: 
@@ -75,8 +75,8 @@ def determineGyroscopeError(workingDirectory = None, verbose = None):
                 print('Value overwritten!')
             gyorscopeErrorDF.drop(index = serialsensor1, inplace = True)
             gyorscopeErrorDF = gyorscopeErrorDF.append(tempDF, verify_integrity = True)
-            
-        gyorscopeErrorDF.to_pickle('gyorscopeErrorDF.pkl')
+
+        gyorscopeErrorDF.to_csv('gyorscopeErrorDF.csv')
     
     if workingDirectory == None:
         os.chdir(calibrationDirectory)
@@ -85,8 +85,11 @@ def determineGyroscopeError(workingDirectory = None, verbose = None):
         
     if verbose:
          print('Gyroscope error of all known sensors succesfully computed')
-      
+
+#%% 
 if __name__ == "__main__":
-    determineGyroscopeError()
+    determineGyroscopeError(verbose = True)
 
 
+
+# %%

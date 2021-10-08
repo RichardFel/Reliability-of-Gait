@@ -8,22 +8,16 @@ mainDirectory = os.getcwd()
 
 
 def calculateICCMDC():
-    filename = 'gait_features'
+    filename = 'gait_features_makingSense_accRotated.xlsx'
     directory = mainDirectory + '/Results'
     os.chdir(directory)       
-    loadfile = filename + '.xlsx'
-    xls = pd.read_excel(loadfile, index_col = 0)
+    xls = pd.read_excel(filename, index_col = 0)
     nFilesPP = 2
     xls.reset_index(inplace = True)
     countValues = xls['Subject number'].value_counts()
     inComplete = countValues.loc[countValues != nFilesPP].index
     xls.drop(xls.loc[xls['Subject number'].isin(inComplete)].index, inplace = True)
-    '''
-    xls.drop(xls.loc[xls['Subject number']== 'S006P'].index, inplace = True)
-    # 13,14 = Stapjes: S014P       
-    xls.drop(xls.loc[xls['Subject number'] == 'S014P'].index, inplace = True)
-    '''        
-            
+  
     results = pd.DataFrame(columns = xls.columns[3:]).astype(float)
     results = results.append(pd.Series(name='ICC', dtype = 'float64'))
     results = results.append(pd.Series(name='MDC', dtype = 'float64'))

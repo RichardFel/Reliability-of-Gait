@@ -1,4 +1,3 @@
-#%%
 '''
 Use this script to calculate the gyroscope bias.
 The calibration files per sensor are stored in /calibrationFiles named 
@@ -86,10 +85,9 @@ def determineGyroscopeError(workingDirectory = None, verbose = None):
     if verbose:
          print('Gyroscope error of all known sensors succesfully computed')
 
-#%% 
+
 if __name__ == "__main__":
     determineGyroscopeError(verbose = True)
 
 
 
-# %%

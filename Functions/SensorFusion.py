@@ -129,3 +129,13 @@ class sensorFusion:
             pos[i] = pos[j] + vel[i] * self.sampleperiod 
         return pos
        
+    def caclrot(self, order):
+        '''
+        Calculate the orientation of the sensor in a global axis. 
+        '''
+        from scipy.spatial.transform import Rotation as R
+        r = R.from_quat([self.quaternion[0], self.quaternion[1], self.quaternion[2], self.quaternion[3]])
+        ang = r.as_euler(order, degrees=True)
+        
+        return ang
+    

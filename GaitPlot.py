@@ -230,7 +230,7 @@ axICC[1,1].xaxis.set_major_locator(b)
 
 axICC[1,1].set_yticklabels([])
 axICC[1,0].set_xlabel('')
-axICC[1,0].set_ylabel('MDC expressed as STD')
+axICC[1,0].set_ylabel('rMDC')
 axICC[1,1].set_xlabel('')
 axICC[1,1].set_ylabel('')
 axICC[1,0].set_title('')
@@ -442,7 +442,7 @@ axICC2[1,1].xaxis.set_major_locator(b)
 
 axICC2[1,1].set_yticklabels([])
 axICC2[1,0].set_xlabel('')
-axICC2[1,0].set_ylabel('MDC expressed as STD')
+axICC2[1,0].set_ylabel('rMDC')
 axICC2[1,1].set_xlabel('')
 axICC2[1,1].set_ylabel('')
 axICC2[1,0].set_title('')
@@ -493,7 +493,7 @@ axICC2[0,0].legend([handle for i,handle in enumerate(handles) if i in display],
 axICC2[0,0].legend(["Left foot", "Right foot", "Low Back"], 
      loc = 'lower right')
 
-axICC2[0,1].legend(["Asymmetry"], 
+axICC2[0,1].legend(["Combined"], 
      loc = 'lower right')
 
 

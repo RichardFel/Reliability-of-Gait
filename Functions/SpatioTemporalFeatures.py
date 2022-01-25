@@ -5,13 +5,13 @@ import StepDetection
 
 def calcFeaturesFeet(sensors, plotje, verbose, per_N_strides):
     sensors = StepDetection.detectStepsFeet(sensors,plotje, verbose)       
-    stepTime(sensors["leftfoot"], per_N_strides,verbose)
-    stepTime(sensors["rightfoot"], per_N_strides,verbose)
+    stepTime(sensors["leftfoot"], per_N_strides,verbose, 'leftfoot')
+    stepTime(sensors["rightfoot"], per_N_strides,verbose, 'rightfoot')
     SensorFusion.rotateToGlobal(sensors["leftfoot"], sensors["rightfoot"],plotje)
     descriptives(sensors["leftfoot"],  per_N_strides)
     descriptives(sensors["rightfoot"],  per_N_strides)
-    stepDistance(sensors["leftfoot"], per_N_strides,plotje,verbose )
-    stepDistance(sensors["rightfoot"], per_N_strides, plotje, verbose)   
+    stepDistance(sensors["leftfoot"], per_N_strides,plotje,verbose, 'leftfoot' )
+    stepDistance(sensors["rightfoot"], per_N_strides, plotje, verbose, 'rightfoot')   
     if (np.abs(sensors["leftfoot"].totdist -sensors["rightfoot"].totdist) > 25):
         print('Difference between distance too large. We cannot include',
               'this participant')
@@ -20,7 +20,7 @@ def calcFeaturesFeet(sensors, plotje, verbose, per_N_strides):
         print('\n checkpoint 3 passed \n')
     return sensors
 
-def stepTime(self, per_N_strides, verbose):
+def stepTime(self, per_N_strides, verbose, foot):
     timepersteride = []
     stridetimemean = []
     stridetimeSTD = []
@@ -37,13 +37,14 @@ def stepTime(self, per_N_strides, verbose):
     self.normstridetime = np.mean(normstridetime)  
     self.cadence = int(len(self.peaks)/2)
     if verbose:
+        print(foot)
         print("Amount of stride in trial: ", self.stridenum)
         print("Mean time per stride: ", self.stridetimemean, 's')
         print("Step time STD: ", self.stridetimeSTD)
         print("Normalised step time: ",  self.normstridetime )
         print("\n")
         
-def stepDistance(self, per_N_strides, plotje = None, verbose = None):
+def stepDistance(self, per_N_strides, plotje = None, verbose = None, foot = None):
     forwardvelocity = np.hypot(np.abs(np.diff(self.velocity[:,0])),np.abs(np.diff(self.velocity[:,1])))
     forwarddisplacement = np.hypot(np.cumsum(np.abs(np.diff(self.position[:,0]))),np.cumsum(np.abs(np.diff(self.position[:,1]))))
     strideDist = np.zeros(self.stridenum)
@@ -77,7 +78,7 @@ def stepDistance(self, per_N_strides, plotje = None, verbose = None):
     self.stdstrideVelperstepperstep  = np.nanmean(stdstrideVelperstepperstep)
 
     if verbose:
-        printje(self, forwarddisplacement)
+        printje(self, forwarddisplacement, foot)
 
     if plotje:
         Visualise.plot2(forwardvelocity, forwarddisplacement,
@@ -86,7 +87,8 @@ def stepDistance(self, per_N_strides, plotje = None, verbose = None):
                              ylabel2 = 'Position [m]'
                              )
 
-def printje(self, forwarddisplacement):
+def printje(self, forwarddisplacement, foot):
+    print(foot)
     print('Distance walked: ',  np.max(forwarddisplacement ), 'm')
     print('Mean distance per stride: ',  self.meanStrideDistperstep)
     print('STD distance per stride: ',  self.stdStrideDistperstep)
@@ -138,7 +140,7 @@ def descriptives(self, per_N):
 def calcFeaturesLowback(sensors, plotje, verbose, per_N_steps):
     StepDetection.stepdetectionLowback(sensors, per_N_steps, plotje, printje)
     descriptives(sensors['lowback'], per_N_steps)
-    stepTime(sensors['lowback'], per_N_steps, verbose)
+    stepTime(sensors['lowback'], per_N_steps, verbose, 'lowback')
     if (np.abs(len(sensors['lowback'].peaks) - (sensors['leftfoot'].stridenum + sensors['rightfoot'].stridenum)) > 20):
         print('We cannot find the same amount of peaks in LB as in feet sensors.','Participant cannot be included')
         raise Exception 

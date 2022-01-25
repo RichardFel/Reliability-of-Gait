@@ -133,6 +133,31 @@ class sensorFusion:
         '''
         Calculate the orientation of the sensor in a global axis. 
         '''
+
+        #    order = 'yzx'
+        #    
+        #    def caclrot(q, order):
+        #        from scipy.spatial.transform import Rotation as R
+        #        r = R.from_quat([q[0], q[1], q[2], q[3]])
+        #        ang = r.as_euler(order, degrees=True)
+        #        return ang
+        #    
+        #    import numpy as np
+        #    
+        #    angles = np.zeros((len(sensors["rightfoot"].quaternion),3))
+        #    for i in range(0,len(angles)):
+        #        angles[i] = caclrot(sensors["rightfoot"].quaternion[i],order)
+        #
+        #    # Set baseline at 0
+        #    angles -= np.mean(angles[0:200,:], axis = 0)
+        #
+        #    import matplotlib.pyplot as plt
+        #    signal = angles
+        #    fig1, ax2 = plt.subplots(3)
+        #    ax2[0].plot(np.array(range(0,len(signal))),signal[:,0])
+        #    ax2[1].plot(np.array(range(0,len(signal))), signal[:,1])
+        #    ax2[2].plot(np.array(range(0,len(signal))), signal[:,2])  
+        
         from scipy.spatial.transform import Rotation as R
         r = R.from_quat([self.quaternion[0], self.quaternion[1], self.quaternion[2], self.quaternion[3]])
         ang = r.as_euler(order, degrees=True)

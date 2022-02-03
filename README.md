@@ -19,8 +19,9 @@ For information about the outcomes set verbose = True
 For information about files with an error set debug = True
 
 ## Testing
-Testing files can be found in the Example poor, example average and example good.zip
-To run the code place the IMU data  in the Data folder & open the gyroscopeErrorDF.csv.zip and place the CSV file in the Calibration folder.
+Testing files can be found in the zipfiles folder.
+To run the code open one example  (Example poor.zip, example average.zip and example good.zip) and place the files in the data folder.
+Open the gyroscopeErrorDF.csv.zip and place the CSV file in the Calibration folder.
 For the making sense project the IMU data was placed in the DataMakingSense folder.
 
 
